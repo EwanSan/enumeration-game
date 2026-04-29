@@ -26,6 +26,7 @@ app.get("/health", (_req, res) => res.json({ status: "ok" }));
 app.get("/themes", (_req, res) => res.json(themeList));
 
 io.on("connection", (socket) => {
+  socket.emit("themes", themeList);
   console.log(`Player connected: ${socket.id}`);
 
   // --- Create a room ---
