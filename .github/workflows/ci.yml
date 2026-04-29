@@ -22,6 +22,16 @@ jobs:
       - name: Validate themes
         run: node --input-type=module -e "import('./src/data/themeLoader.js').then(() => process.exit(0))"
 
+  smoke:
+    name: Server — smoke test (production)
+    runs-on: ubuntu-latest
+    if: vars.RENDER_URL != ''
+    steps:
+      - name: Ping /health
+        run: |
+          curl --fail --retry 3 --retry-delay 10 \
+            "${{ vars.RENDER_URL }}/health"
+
   client:
     name: Client — lint & build
     runs-on: ubuntu-latest
