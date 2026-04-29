@@ -49,6 +49,14 @@ server/             # Node.js backend
 - `timer_tick` -> server emits every second
 - `game_over` -> emitted when a player loses (wrong answer, timeout, disconnect) or all answers are found
 
+## Environment variables
+
+| Service | Variable | Purpose |
+|---|---|---|
+| Server | `CLIENT_ORIGIN` | Allowed CORS origin (set to Vercel URL in prod, defaults to `http://localhost:5173`) |
+| Server | `PORT` | Port to listen on (set automatically by Render, defaults to 3001) |
+| Client | `VITE_SERVER_URL` | Server base URL (set to Render URL in prod, defaults to `http://localhost:3001`) |
+
 ## Commands
 
 ```bash
@@ -58,6 +66,12 @@ cd server && npm install && npm run dev
 # Client (port 5173)
 cd client && npm install && npm run dev
 ```
+
+## Lobby shareable link
+
+When a room is created, the Lobby shows the full join URL as `window.location.origin + "?room=" + roomId`. When that URL is opened, `App.jsx` reads the `?room=` query param and passes it to `Home` as `initialRoomCode`, which pre-fills the join code and switches directly to join mode.
+
+The `/themes` fetch in `useSocket.js` is fired both on initial load and on socket `connect`, so the theme list is always populated even if the server was cold (sleeping on Render free tier) when the page first loaded.
 
 ## Adding questions to a theme
 

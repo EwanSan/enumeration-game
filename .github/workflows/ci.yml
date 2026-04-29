@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  server:
+    name: Server — validate theme data
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm install
+      - name: Validate themes
+        run: node --input-type=module -e "import('./src/data/themeLoader.js').then(() => process.exit(0))"
+
+  smoke:
+    name: Server — smoke test (production)
+    runs-on: ubuntu-latest
+    if: vars.RENDER_URL != ''
+    steps:
+      - name: Ping /health
+        run: |
+          curl --fail --retry 3 --retry-delay 10 \
+            "${{ vars.RENDER_URL }}/health"
+
+  client:
+    name: Client — lint & build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm install
+      - run: npm run lint
+      - run: npm run build

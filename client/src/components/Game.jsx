@@ -44,11 +44,6 @@ export function Game({
       .slice(0, 8);
   }, [input, availableAnswers]);
 
-  // Reset selected index when suggestions change
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [suggestions.length, input]);
-
   // Focus input on turn change
   useEffect(() => {
     if (isMyTurn) {
@@ -110,7 +105,7 @@ export function Game({
             type="text"
             placeholder={isMyTurn ? "Tapez votre réponse..." : "Tour de l'adversaire..."}
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => { setInput(e.target.value); setSelectedIndex(0); }}
             onKeyDown={handleKeyDown}
             disabled={!isMyTurn}
           />
