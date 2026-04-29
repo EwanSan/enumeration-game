@@ -9,6 +9,7 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3001";
 export function useSocket() {
   const socketRef = useRef(null);
   const [connected, setConnected] = useState(false);
+  const [socketId, setSocketId] = useState(null);
   const [page, setPage] = useState("home"); // home | lobby | game | gameover
   const [roomId, setRoomId] = useState(null);
   const [playerName, setPlayerName] = useState("");
@@ -37,11 +38,12 @@ export function useSocket() {
 
     socket.on("connect", () => {
       setConnected(true);
+      setSocketId(socket.id);
       // Re-fetch themes on connect: handles the case where the server was cold
       // (sleeping on Render free tier) when the page first loaded.
       fetchThemes();
     });
-    socket.on("disconnect", () => setConnected(false));
+    socket.on("disconnect", () => { setConnected(false); setSocketId(null); });
 
     socket.on("game_start", (data) => {
       setGameData(data);
@@ -119,7 +121,7 @@ export function useSocket() {
   }
 
   return {
-    socketId: socketRef.current?.id,
+    socketId,
     connected,
     page,
     roomId,
