@@ -24,15 +24,23 @@ export function useSocket() {
   const [themes, setThemes] = useState([]);
 
   useEffect(() => {
-    fetch(`${SERVER_URL}/themes`)
-      .then((r) => r.json())
-      .then(setThemes)
-      .catch(() => {});
+    const fetchThemes = () =>
+      fetch(`${SERVER_URL}/themes`)
+        .then((r) => r.json())
+        .then(setThemes)
+        .catch(() => {});
+
+    fetchThemes();
 
     const socket = io(SERVER_URL, { autoConnect: true });
     socketRef.current = socket;
 
-    socket.on("connect", () => setConnected(true));
+    socket.on("connect", () => {
+      setConnected(true);
+      // Re-fetch themes on connect: handles the case where the server was cold
+      // (sleeping on Render free tier) when the page first loaded.
+      fetchThemes();
+    });
     socket.on("disconnect", () => setConnected(false));
 
     socket.on("game_start", (data) => {
