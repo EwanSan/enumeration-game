@@ -57,6 +57,7 @@ export default {
         "Chine", "Inde", "États-Unis", "Indonésie", "Pakistan",
         "Nigeria", "Brésil", "Bangladesh", "Russie", "Mexique",
         "Éthiopie", "Japon", "Philippines", "Égypte", "République démocratique du Congo",
+        "Viêt Nam", "Turquie", "Iran", "Allemagne", "Thaïlande", "Royaume-Uni",
       ],
     },
     {
