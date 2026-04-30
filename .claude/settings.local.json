@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(curl -s 'https://restcountries.com/v3.1/alpha/RUS?fields=name,borders')",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "WebFetch(domain:fr.wikipedia.org)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "Bash(python3 /dev/stdin)",
+      "Bash(uv run --with geopandas --with shapely --with requests python -c ' *)"
     ]
   }
 }
