@@ -26,7 +26,16 @@ export class RoomManager {
     const theme = themes.get(themeId);
     if (!theme) return { error: "invalid_theme" };
     const roomId = this.generateRoomId();
-    const room = { id: roomId, players: [], game: null, io, timerDuration, theme };
+    const room = {
+      id: roomId,
+      players: [],
+      game: null,
+      io,
+      timerDuration,
+      theme,
+      playAgainRequests: new Set(),
+      deleteTimeout: null,
+    };
     this.rooms.set(roomId, room);
     return { room };
   }
@@ -39,6 +48,9 @@ export class RoomManager {
     const room = this.rooms.get(roomId);
     if (room?.game) {
       room.game.timer.stop();
+    }
+    if (room?.deleteTimeout) {
+      clearTimeout(room.deleteTimeout);
     }
     this.rooms.delete(roomId);
   }
@@ -59,7 +71,13 @@ export class RoomManager {
 
   startGame(room) {
     const { theme } = room;
-    const question = theme.questions[Math.floor(Math.random() * theme.questions.length)];
+    // Avoid repeating the previous question when possible (play-again scenario).
+    const previousQuestionId = room.game?.question?.id;
+    const candidates =
+      previousQuestionId && theme.questions.length > 1
+        ? theme.questions.filter((q) => q.id !== previousQuestionId)
+        : theme.questions;
+    const question = candidates[Math.floor(Math.random() * candidates.length)];
     const answerSet = theme.answerSet;
 
     const game = new GameState(question, answerSet, room.timerDuration, {
@@ -79,8 +97,10 @@ export class RoomManager {
           totalAnswers: question.correctAnswers.length,
           correctAnswers: question.correctAnswers,
         });
-        // Clean up room after game ends
-        setTimeout(() => this.deleteRoom(room.id), 60_000);
+        // Reset play-again requests for the next round.
+        room.playAgainRequests = new Set();
+        // Clean up room after game ends if no one wants to play again.
+        room.deleteTimeout = setTimeout(() => this.deleteRoom(room.id), 60_000);
       },
     });
 
@@ -95,6 +115,38 @@ export class RoomManager {
       currentPlayerId: game.currentPlayer.id,
       totalAnswers: question.correctAnswers.length,
     });
+  }
+
+  /**
+   * Player requests to play again after a game ended.
+   * When both players in the room have requested, a new game starts.
+   */
+  requestPlayAgain(roomId, playerId) {
+    const room = this.getRoom(roomId);
+    if (!room) return { error: "room_not_found" };
+    if (!room.game || room.game.status !== "finished") {
+      return { error: "game_not_finished" };
+    }
+    if (!room.players.some((p) => p.id === playerId)) {
+      return { error: "not_in_room" };
+    }
+
+    room.playAgainRequests.add(playerId);
+
+    if (room.playAgainRequests.size === room.players.length) {
+      if (room.deleteTimeout) {
+        clearTimeout(room.deleteTimeout);
+        room.deleteTimeout = null;
+      }
+      room.playAgainRequests = new Set();
+      this.startGame(room);
+      return { ok: true, started: true };
+    }
+
+    room.io.to(room.id).emit("play_again_update", {
+      requestingIds: Array.from(room.playAgainRequests),
+    });
+    return { ok: true, started: false };
   }
 
   /**

@@ -41,7 +41,9 @@ export default function App() {
           data={state.gameOverData}
           players={state.gameData?.players}
           socketId={state.socketId}
-          onPlayAgain={state.resetToHome}
+          playAgainRequests={state.playAgainRequests}
+          onRequestPlayAgain={state.requestPlayAgain}
+          onBackHome={state.resetToHome}
         />
       )}
 

@@ -87,6 +87,13 @@ io.on("connection", (socket) => {
     });
   });
 
+  // --- Play again ---
+  socket.on("play_again", () => {
+    const room = roomManager.findRoomByPlayerId(socket.id);
+    if (!room) return;
+    roomManager.requestPlayAgain(room.id, socket.id);
+  });
+
   // --- Disconnect ---
   socket.on("disconnect", () => {
     const room = roomManager.findRoomByPlayerId(socket.id);

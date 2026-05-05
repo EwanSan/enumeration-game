@@ -1,4 +1,11 @@
-export function GameOver({ data, players, socketId, onPlayAgain }) {
+export function GameOver({
+  data,
+  players,
+  socketId,
+  playAgainRequests = [],
+  onRequestPlayAgain,
+  onBackHome,
+}) {
   const winner = players?.find((p) => p.id === data.winnerId);
   const isWinner = data.winnerId === socketId;
   const isDraw = !data.winnerId;
@@ -9,6 +16,11 @@ export function GameOver({ data, players, socketId, onPlayAgain }) {
     disconnect: "Adversaire déconnecté",
     all_found: "Toutes les réponses trouvées !",
   };
+
+  const opponent = players?.find((p) => p.id !== socketId);
+  const hasRequested = playAgainRequests.includes(socketId);
+  const opponentRequested = opponent && playAgainRequests.includes(opponent.id);
+  const canPlayAgain = data.reason !== "disconnect" && !!opponent;
 
   return (
     <div className="page gameover">
@@ -41,7 +53,20 @@ export function GameOver({ data, players, socketId, onPlayAgain }) {
         </ul>
       </details>
 
-      <button onClick={onPlayAgain}>Nouvelle partie</button>
+      <div className="gameover-actions">
+        {canPlayAgain && (
+          <button onClick={onRequestPlayAgain} disabled={hasRequested}>
+            {hasRequested ? "En attente de l'adversaire…" : "Rejouer"}
+          </button>
+        )}
+        <button onClick={onBackHome}>Retour à l'accueil</button>
+      </div>
+
+      {canPlayAgain && opponentRequested && !hasRequested && (
+        <p className="play-again-hint">
+          {opponent.name} veut rejouer !
+        </p>
+      )}
     </div>
   );
 }

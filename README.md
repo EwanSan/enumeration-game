@@ -2,6 +2,8 @@
 
 A real-time multiplayer game where two players face off by taking turns answering enumeration questions.
 
+https://enumeration-game.vercel.app/
+
 ## How it works
 
 The host picks a **theme** (e.g. countries) and a turn duration. A question is then displayed to both players (e.g. "Which countries are more populated than France?"). Players take turns giving an answer within the chosen time limit. The game ends when a player:

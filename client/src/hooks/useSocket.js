@@ -22,6 +22,7 @@ export function useSocket() {
   const [givenAnswers, setGivenAnswers] = useState([]);
   const [lastResult, setLastResult] = useState(null);
   const [gameOverData, setGameOverData] = useState(null);
+  const [playAgainRequests, setPlayAgainRequests] = useState([]);
   const [themes, setThemes] = useState([]);
 
   useEffect(() => {
@@ -41,6 +42,8 @@ export function useSocket() {
       setCurrentPlayerId(data.currentPlayerId);
       setGivenAnswers([]);
       setLastResult(null);
+      setGameOverData(null);
+      setPlayAgainRequests([]);
       setPage("game");
     });
 
@@ -61,7 +64,12 @@ export function useSocket() {
 
     socket.on("game_over", (data) => {
       setGameOverData(data);
+      setPlayAgainRequests([]);
       setPage("gameover");
+    });
+
+    socket.on("play_again_update", ({ requestingIds }) => {
+      setPlayAgainRequests(requestingIds);
     });
 
     return () => socket.disconnect();
@@ -101,6 +109,13 @@ export function useSocket() {
     socketRef.current.emit("submit_answer", { answer });
   }
 
+  function requestPlayAgain() {
+    socketRef.current.emit("play_again");
+    setPlayAgainRequests((prev) =>
+      prev.includes(socketRef.current.id) ? prev : [...prev, socketRef.current.id]
+    );
+  }
+
   function resetToHome() {
     setPage("home");
     setRoomId(null);
@@ -108,6 +123,7 @@ export function useSocket() {
     setGameOverData(null);
     setGivenAnswers([]);
     setLastResult(null);
+    setPlayAgainRequests([]);
     setError(null);
   }
 
@@ -124,10 +140,12 @@ export function useSocket() {
     givenAnswers,
     lastResult,
     gameOverData,
+    playAgainRequests,
     themes,
     createRoom,
     joinRoom,
     submitAnswer,
+    requestPlayAgain,
     resetToHome,
   };
 }
