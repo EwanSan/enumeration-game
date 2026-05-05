@@ -649,5 +649,93 @@ export default {
         "Saint-Marin", "Slovénie", "Suède", "Suisse", "Ukraine", "Vatican",
       ],
     },
+    {
+      id: "countries-flag-crescent",
+      text: "Quels pays ont un croissant de lune sur leur drapeau ?",
+      correctAnswers: [
+        "Algérie", "Azerbaïdjan", "Comores", "Libye", "Malaisie",
+        "Maldives", "Mauritanie", "Ouzbékistan", "Pakistan", "Singapour",
+        "Tunisie", "Turkménistan", "Turquie",
+      ],
+    },
+    {
+      id: "countries-flag-animal",
+      text: "Quels pays ont un animal sur leur drapeau national ?",
+      correctAnswers: [
+        "Albanie", "Bhoutan", "Dominique", "Égypte", "Kazakhstan",
+        "Kiribati", "Mexique", "Moldavie", "Monténégro", "Ouganda",
+        "Papouasie-Nouvelle-Guinée", "Serbie", "Sri Lanka", "Zambie", "Zimbabwe",
+      ],
+    },
+    {
+      id: "countries-flag-eagle",
+      text: "Quels pays ont un aigle sur leur drapeau ?",
+      correctAnswers: [
+        "Albanie", "Égypte", "Kazakhstan", "Mexique", "Moldavie", "Monténégro", "Serbie", "Zambie",
+      ],
+    },
+    {
+      id: "countries-flag-weapon",
+      text: "Quels pays ont une arme sur leur drapeau ?",
+      correctAnswers: [
+        "Arabie saoudite", "Eswatini", "Guatemala", "Haïti", "Mozambique",
+      ],
+    },
+    {
+      id: "countries-flag-bicolor",
+      text: "Quels pays ont un drapeau bicolore (deux couleurs uniquement) ?",
+      correctAnswers: [
+        "Arabie saoudite", "Autriche", "Bahreïn", "Bangladesh", "Danemark",
+        "Finlande", "Géorgie", "Indonésie", "Japon", "Lettonie",
+        "Malte", "Maroc", "Micronésie", "Monaco", "Nigeria",
+        "Pakistan", "Palaos", "Pérou", "Pologne", "Qatar",
+        "Saint-Marin", "Singapour", "Suède", "Tonga", "Tunisie",
+        "Turquie", "Ukraine", "Viêt Nam",
+      ],
+    },
+    {
+      id: "countries-flag-green-yellow-red",
+      text: "Quels pays ont le vert, le jaune et le rouge sur leur drapeau ?",
+      correctAnswers: [
+        "Bénin", "Bolivie", "Burkina Faso", "Cameroun", "Centrafrique",
+        "Dominique", "Éthiopie", "Ghana", "Grenade", "Guinée",
+        "Guinée-Bissau", "Lituanie", "Mali", "Mauritanie", "Mozambique",
+        "République du Congo", "São Tomé-et-Príncipe", "Sénégal", "Seychelles", "Togo",
+        "Zimbabwe",
+      ],
+    },
+    {
+      id: "countries-flag-blue-white-red",
+      text: "Quels pays ont le bleu, le blanc et le rouge sur leur drapeau ?",
+      correctAnswers: [
+        "Antigua-et-Barbuda", "Australie", "Belize", "Cambodge", "Chili",
+        "Corée du Nord", "Corée du Sud", "Costa Rica", "Croatie", "Cuba",
+        "États-Unis", "Fidji", "France", "Haïti", "Islande",
+        "Kiribati", "Laos", "Liberia", "Luxembourg", "Norvège",
+        "Nouvelle-Zélande", "Panama", "Paraguay", "Pays-Bas", "Philippines",
+        "République dominicaine", "République tchèque", "Russie", "Samoa", "Serbie",
+        "Seychelles", "Slovaquie", "Slovénie", "Thaïlande", "Tuvalu",
+      ],
+    },
+    {
+      id: "countries-named-after-person",
+      text: "Quels pays portent un nom contenant directement celui d'une personne historique réelle ?",
+      correctAnswers: [
+        "Arabie saoudite", "Bolivie", "Colombie", "Géorgie", "Îles Marshall",
+        "Maurice", "Mozambique", "Philippines", "République dominicaine",
+        "Saint-Kitts-et-Nevis", "Saint-Marin", "Saint-Vincent-et-les-Grenadines",
+        "Sainte-Lucie", "São Tomé-et-Príncipe", "Seychelles",
+      ],
+    },
+    {
+      id: "countries-flag-single-star",
+      text: "Quels pays ont exactement une étoile sur leur drapeau (sans croissant) ?",
+      correctAnswers: [
+        "Birmanie", "Burkina Faso", "Cameroun", "Centrafrique", "Chili",
+        "Cuba", "Djibouti", "Ghana", "Guinée-Bissau", "Îles Marshall",
+        "Israël", "Jordanie", "Liberia", "Maroc", "Mozambique",
+        "Nauru", "São Tomé-et-Príncipe", "Sénégal", "Togo", "Viêt Nam",
+      ],
+    },
   ],
 };

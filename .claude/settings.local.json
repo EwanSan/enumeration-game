@@ -6,7 +6,12 @@
       "WebFetch(domain:fr.wikipedia.org)",
       "WebFetch(domain:en.wikipedia.org)",
       "Bash(python3 /dev/stdin)",
-      "Bash(uv run --with geopandas --with shapely --with requests python -c ' *)"
+      "Bash(uv run --with geopandas --with shapely --with requests python -c ' *)",
+      "Bash(curl -s -G https://query.wikidata.org/sparql --data-urlencode format=json --data-urlencode 'query= *)",
+      "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(r['countryLabel']['value']\\) for r in data['results']['bindings']]\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/smithsonian-open-data/GVP-Volcanoes-of-the-World/main/GVP_Volcano_List_Holocene.csv\")",
+      "Bash(curl -s 'https://www.ngdc.noaa.gov/hazel/hazard-service/api/v1/volcanoes/eruptions?startYear=2001&endYear=2026&maxResults=2000' -H 'Accept: application/json')",
+      "Bash(npm run *)"
     ]
   }
 }
